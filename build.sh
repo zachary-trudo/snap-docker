@@ -14,8 +14,7 @@ cmd="docker build -t ${org}/snap:${version}_${os} \
 
 if [[ $version == "latest" ]]; then
   sha=$(curl -s https://api.github.com/repos/intelsdi-x/snap/commits | jq -r .\[0\].sha)
-  cmd="${cmd} \
-    --label io.snap-telemetry.snap.sha=${sha}"
+  cmd="${cmd}" 
 fi
 
 $cmd -f "${os}/Dockerfile" .

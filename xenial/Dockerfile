@@ -6,6 +6,8 @@ ARG BUILD_DATE
 
 ENV SNAP_TRUST_LEVEL=0
 ENV SNAP_LOG_LEVEL=1
+ENV GOPATH /home/root/go
+ENV PATH $PATH:/usr/local/go/bin:$GOPATH/bin
 
 LABEL vendor="Intelsdi-X" \
       name="Ubuntu 16.04 Snap ${SNAP_VERSION}" \
@@ -17,7 +19,7 @@ LABEL vendor="Intelsdi-X" \
 EXPOSE 8181
 
 RUN apt-get update && \
-    (apt-get install -y curl || apt-get install -o Acquire::BrokenProxy=true -o Acquire::http::Pipeline-Depth="0" -y curl) && \
+    (apt-get install -y curl git make || apt-get install -o Acquire::BrokenProxy=true -o Acquire::http::Pipeline-Depth="0" -y curl git make) && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -25,4 +27,8 @@ COPY install_snap /usr/local/bin/install_snap
 RUN /usr/local/bin/install_snap
 COPY snapd.conf /etc/snap/snapd.conf
 
-CMD /opt/snap/bin/snapd -t ${SNAP_TRUST_LEVEL} -l ${SNAP_LOG_LEVEL} -o ''
+COPY install_plugins /usr/local/bin/install_plugins
+RUN /usr/local/bin/install_plugins
+
+COPY run.sh /run.sh
+CMD /run.sh && bash 

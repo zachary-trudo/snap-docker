@@ -11,3 +11,4 @@ chmod 775 /opt/snap/bin/snapd
 chmod 775 /opt/snap/bin/snapctl
 ln -s /opt/snap/bin/snapd /usr/local/bin/snapd
 ln -s /opt/snap/bin/snapctl /usr/local/bin/snapctl
+

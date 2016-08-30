@@ -1,0 +1,12 @@
+#!/bin/sh
+mkdir -p ~/snap/plugins
+mkdir -p ~/go
+
+# Install go
+curl -sL "https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz" > ~/snap/go.tar.gz
+tar -xvzf ~/snap/go.tar.gz -C /usr/local/
+
+go get github.com/tools/godep
+go get -d github.com/intelsdi-x/snap-plugin-collector-cassandra
+cd $GOPATH/src/github.com/intelsdi-x/snap-plugin-collector-cassandra && make
+
